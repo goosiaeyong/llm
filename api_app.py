@@ -4,21 +4,21 @@ from fastapi import FastAPI
 import uvicorn
 from pydantic import BaseModel
 
-print(f"Env Variables are loaded: {load_dotenv()}")
-
+print(f"System: Env Variables are loaded: {load_dotenv()}")
 
 app = FastAPI()
-docs_dir_path = "./document_set"
-db_dir = './database'
-chatbot = chatbot.QnAChatBot(docs_dir_path, db_dir)
+chatbot = chatbot.FairytaleMaker()
 
-class QueryRequest(BaseModel):
-    question: str
+class MakeRequest(BaseModel):
+    missions: str 
+    name: str
+    age: int
+    character: str
 
-@app.post("/ask")
-async def ask_question(request: QueryRequest):
+@app.post("/fairytale")
+async def ask_question(request: MakeRequest):
     # The query method returns a Python dictionary
-    response = chatbot.query(request.question)
+    response = chatbot.make_fairytale(request)
     # FastAPI automatically converts this dictionary to JSON
     return response
 
